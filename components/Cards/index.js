@@ -24,10 +24,17 @@ console.log(entryPoint2);
 axios.get("https://lambda-times-backend.herokuapp.com/articles")
 .then(response => {
     console.log("data: ", response);
+    const obj = response.data.articles
+    console.log("object data:", obj);
 
-    response.data.forEach(item => {
-        const newCard = cardCreator(item)
-        entryPoint2.appendChild(newCard);
+    Object.values(obj).forEach(item => {
+        console.log(item)
+        // const newCard = cardCreator(item)
+        // entryPoint2.appendChild(newCard);
+        item.forEach(item => {
+        let newCard = cardCreator(item)
+        entryPoint2.appendChild(newCard); 
+        })
     })
 })
 .catch(error => {
@@ -53,13 +60,13 @@ function cardCreator(argument) {
     card.appendChild(headline);
     card.appendChild(author);
     author.appendChild(imageContainer);
-    author.appendChild(image);
+    imageContainer.appendChild(image);
     author.appendChild(writerName);
 
     //Add Text Content
     headline.textContent = argument.headline
     image.src = argument.authorPhoto
-    writerName = `By: ${argument.authorName}`
+    writerName.textContent = `By: ${argument.authorName}`
 
     return card;
 }
